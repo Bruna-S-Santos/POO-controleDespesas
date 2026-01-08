@@ -1,0 +1,48 @@
+[
+    {
+        "ano": 2025,
+        "mes": 12,
+        "receitas": [
+            {
+                "valor": 1000.0,
+                "data": "2025-12-30",
+                "descricao": "bico",
+                "categoria": {
+                    "nome": "recebido",
+                    "tipo": "receita",
+                    "limite_mensal": null,
+                    "descricao": ""
+                },
+                "forma_pagamento": "PIX",
+                "tipo": "receita"
+            }
+        ],
+        "despesas": [
+            {
+                "valor": 200.0,
+                "data": "2025-12-30",
+                "descricao": "gasto",
+                "categoria": {
+                    "nome": "agua",
+                    "tipo": "despesa",
+                    "limite_mensal": null,
+                    "descricao": ""
+                },
+                "forma_pagamento": "CARTAO_CREDITO",
+                "tipo": "despesa"
+            }
+        ]
+    },
+    {
+        "ano": 2024,
+        "mes": 2,
+        "receitas": [],
+        "despesas": []
+    },
+    {
+        "ano": 12,
+        "mes": 3,
+        "receitas": [],
+        "despesas": []
+    }
+]
