@@ -1,4 +1,4 @@
-# UNIVERSIDADE FEDERAL DO CARIRI
+
 # UNIVERSIDADE FEDERAL DO CARIRI
 ## Projeto de POO - Controle de Despesas
 
