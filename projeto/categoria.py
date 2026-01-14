@@ -19,6 +19,11 @@ class Categoria:
         # Descrição opcional
         self._descricao = descricao
 
+    def __eq__(self, other):
+        if not isinstance(other, Categoria):
+            return False
+        return self.nome == other.nome and self.tipo == other.tipo
+
     @property
     def nome(self):
         # Pega o nome da categoria
@@ -76,3 +81,15 @@ class Categoria:
     def __str__(self):
         # Mostra o nome e o tipo da categoria
         return f"{self.nome} ({self.tipo})"
+
+        def __repr__(self):
+            return (
+                f"Categoria(nome='{self.nome}', tipo='{self.tipo}', "
+                f"limite_mensal={self.limite_mensal}, "
+                f"descricao='{self.descricao}')"
+            )
+
+        def __eq__(self, other):
+            if not isinstance(other, Categoria):
+                return False
+            return self.nome == other.nome and self.tipo == other.tipo

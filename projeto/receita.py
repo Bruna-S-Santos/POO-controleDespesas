@@ -16,3 +16,15 @@ class Receita(Lancamento):
     def tipo(self) -> str:
         # Só pra diferenciar na hora de mostrar no menu
         return 'receita'
+
+    def __repr__(self):
+        return Lancamento.__repr__(self)
+
+    def __eq__(self, other):
+        return Lancamento.__eq__(self, other)
+
+    def __lt__(self, other):
+        return Lancamento.__lt__(self, other)
+
+    def __add__(self, other):
+        return Lancamento.__add__(self, other)

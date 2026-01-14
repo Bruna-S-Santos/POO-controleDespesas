@@ -9,6 +9,21 @@ from categoria import Categoria
 
 
 class Lancamento(ABC):
+    def __add__(self, other):
+        if not isinstance(other, Lancamento):
+            return NotImplemented
+        if self.tipo() != other.tipo():
+            raise TypeError("Só é possível somar lançamentos do mesmo tipo.")
+        return self.valor + other.valor
+
+    def __le__(self, other):
+        return self.data <= other.data
+
+    def __gt__(self, other):
+        return self.data > other.data
+
+    def __ge__(self, other):
+        return self.data >= other.data
 
     def __init__(
         self, valor: float, data: date, descricao: str,
@@ -98,3 +113,32 @@ class Lancamento(ABC):
             f"{self.data} | {self.categoria.nome} | {self.valor:.2f} | "
             f"{self.descricao} | {self.forma_pagamento.value}"
         )
+
+        def __repr__(self):
+            return (
+                f"Lancamento(valor={self.valor}, data={self.data}, "
+                f"descricao='{self.descricao}', "
+                f"categoria={repr(self.categoria)}, "
+                f"forma_pagamento={self.forma_pagamento})"
+            )
+
+        def __eq__(self, other):
+            if not isinstance(other, Lancamento):
+                return False
+            return (
+                self.data == other.data and self.descricao == other.descricao
+            )
+
+        def __lt__(self, other):
+            if not isinstance(other, Lancamento):
+                return NotImplemented
+            return self.data < other.data
+
+        def __add__(self, other):
+            if not isinstance(other, Lancamento):
+                return NotImplemented
+            if self.tipo() != other.tipo():
+                raise TypeError(
+                    "Só é possível somar lançamentos do mesmo tipo."
+                )
+            return self.valor + other.valor

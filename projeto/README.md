@@ -1,4 +1,4 @@
-
+# UNIVERSIDADE FEDERAL DO CARIRI
 # UNIVERSIDADE FEDERAL DO CARIRI
 ## Projeto de POO - Controle de Despesas
 
@@ -6,12 +6,13 @@
 Bruna, Nunes, Rodrigo
 
 **Professor:** Jayr
-**Data:** 12/01/2026
+**Data:** 14/01/2026
 
 ---
 
 ## Sobre o Projeto
 Esse trabalho é um sistema simples para controlar receitas e despesas do mês, feito em Python usando orientação a objetos. Tudo funciona pelo terminal, então é só rodar e usar o menu.
+Esse projeto é um sistema simples pra controlar receitas e despesas do mês, feito em Python usando orientação a objetos. Tudo funciona pelo terminal, então é só rodar e usar o menu. O código foi feito pensando em facilitar a vida de quem quer organizar o dinheiro sem complicação.
 
 ### Principais Classes
 - Categoria: define se é receita ou despesa, tem nome, tipo, limite e descrição.
@@ -53,21 +54,22 @@ Rodrigo: persistência, relatórios, configuração, interface
 
 ## Diagrama UML (textual)
 
-Diagrama UML (bem simples, só pra ilustrar):
+Diagrama UML:
 
 Categoria
    |
 Lancamento (base)
-   |-- Receita
-   |-- Despesa
-OrcamentoMensal
-GerenciadorFinanceiro
-Relatorio
-Configuracao
-Persistencia
-InterfaceUsuario
-Alerta
-excecoes.py
+   |-- Receita  (métodos especiais: __str__, __repr__, __eq__, __lt__, __add__)
+   |-- Despesa  (métodos especiais: __str__, __repr__, __eq__, __lt__, __add__)
+OrcamentoMensal  <-- contém vários Lancamentos
+GerenciadorFinanceiro  <-- gerencia vários OrcamentoMensal e registra alertas automáticos
+Alerta  <-- usado para avisos de limite, gasto alto, déficit
+Relatorio  <-- gera relatórios e estatísticas
+Configuracao  <-- salva/carrega configs
+Persistencia  <-- salva/carrega dados JSON
+InterfaceUsuario  <-- menu CLI
+excecoes.py  <-- exceções customizadas
+tests/  <-- testes automáticos com pytest
 
 ---
 
@@ -75,10 +77,20 @@ excecoes.py
 
 ## Instruções de Instalação e Execução
 
+
 Como rodar:
 1. Baixe o projeto (pode usar git clone se quiser)
 2. Se quiser, crie um ambiente virtual (python3 -m venv venv)
-3. Rode o main.py (python3 main.py)
+3. Instale as dependências (pip install -r requirements.txt, se houver)
+4. Rode o main.py (python3 main.py)
+
+### Testes automáticos (pytest)
+Se quiser garantir que está tudo funcionando, rode os testes automáticos:
+
+```bash
+pytest -q tests/
+```
+Se aparecer tudo "passed", tá show! Se der erro, o terminal mostra onde foi.
 
 
 ## Exemplo de Uso

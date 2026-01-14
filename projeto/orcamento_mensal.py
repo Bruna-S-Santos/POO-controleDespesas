@@ -43,3 +43,26 @@ class OrcamentoMensal:
             f"Orçamento {self.mes:02d}/{self.ano} | "
             f"Saldo: R${self.saldo():.2f}"
         )
+
+        def __repr__(self):
+            return (
+                f"OrcamentoMensal(ano={self.ano}, mes={self.mes}, "
+                f"receitas={len(self.receitas)}, "
+                f"despesas={len(self.despesas)})"
+            )
+
+        def __eq__(self, other):
+            if not isinstance(other, OrcamentoMensal):
+                return False
+            return self.ano == other.ano and self.mes == other.mes
+
+        def __lt__(self, other):
+            if not isinstance(other, OrcamentoMensal):
+                return NotImplemented
+            return (self.ano, self.mes) < (other.ano, other.mes)
+
+        def __add__(self, other):
+            if not isinstance(other, OrcamentoMensal):
+                return NotImplemented
+            # Soma os saldos dos dois orçamentos
+            return self.saldo() + other.saldo()

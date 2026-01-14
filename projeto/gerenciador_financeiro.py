@@ -22,6 +22,43 @@ class GerenciadorFinanceiro:
         self.competencia_atual = orcamento
         return orcamento
 
+    def registrar_alerta(self, mensagem, tipo="info"):
+        from alerta import Alerta
+        if not hasattr(self, "alertas"):
+            self.alertas = []
+        self.alertas.append(Alerta(mensagem, tipo))
+
+    def adicionar_despesa_com_alerta(self, despesa):
+        # Despesa acima de R$500
+        if despesa.valor > 500:
+            self.registrar_alerta(
+                f"Despesa de alto valor: R${despesa.valor:.2f} - "
+                f"{despesa.descricao}",
+                "aviso"
+            )
+        # Limite excedido já é tratado na classe Despesa (exceção)
+        try:
+            self.competencia_atual.adicionar_despesa(despesa)
+        except Exception as e:
+            self.registrar_alerta(str(e), "erro")
+            # Se for saldo insuficiente, registra alerta de déficit
+            if "Saldo insuficiente" in str(e):
+                self.registrar_alerta(
+                    f"Déficit orçamentário no mês "
+                    f"{self.competencia_atual.mes:02d}/"
+                    f"{self.competencia_atual.ano}",
+                    "erro"
+                )
+            raise
+        # Saldo negativo (caso permitido)
+        if self.competencia_atual.saldo() < 0:
+            self.registrar_alerta(
+                f"Déficit orçamentário no mês "
+                f"{self.competencia_atual.mes:02d}/"
+                f"{self.competencia_atual.ano}",
+                "erro"
+            )
+
     def trocar_competencia(self, ano: int, mes: int):
         # Troca pro orçamento de outro mês/ano
         for o in self.orcamentos:

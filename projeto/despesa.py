@@ -9,6 +9,10 @@ from excecoes import LimiteCategoriaExcedido
 
 
 class Despesa(Lancamento):
+    """
+    Classe para lançamentos de despesa.
+    """
+
     def __init__(self, valor, data, descricao, categoria, forma_pagamento):
         super().__init__(valor, data, descricao, categoria, forma_pagamento)
         # Se passar do limite da categoria, já dá erro!
@@ -24,3 +28,15 @@ class Despesa(Lancamento):
     def tipo(self):
         # Diz que isso aqui é uma despesa
         return 'despesa'
+
+    def __repr__(self):
+        return Lancamento.__repr__(self)
+
+    def __eq__(self, other):
+        return Lancamento.__eq__(self, other)
+
+    def __lt__(self, other):
+        return Lancamento.__lt__(self, other)
+
+    def __add__(self, other):
+        return Lancamento.__add__(self, other)
