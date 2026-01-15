@@ -1,0 +1,190 @@
+# UNIVERSIDADE FEDERAL DO CARIRI
+# UNIVERSIDADE FEDERAL DO CARIRI
+## Projeto de POO - Controle de Despesas
+
+**Grupo:** Os Lascados
+Bruna, Nunes, Rodrigo
+
+**Professor:** Jayr
+**Data:** 15/01/2026
+
+
+## Requisitos Atendidos
+
+- Cadastro, edição e exclusão de categorias de receita e despesa (com validação de duplicidade e limite)
+- Lançamento de receitas e despesas com validação rigorosa (valor > 0, associação à categoria)
+- Controle de limite mensal por categoria
+- Cálculo automático de saldo diário e mensal
+- Alertas automáticos: limite excedido, alto valor, saldo negativo
+- Relatórios: total por categoria, por forma de pagamento, percentual, mês mais econômico, comparativo de meses
+- Configurações personalizáveis em settings.json
+- Persistência em JSON
+- Testes automatizados com pytest
+
+### Padrões de POO Utilizados
+- **Herança:** Lancamento → Receita/Despesa
+- **Encapsulamento:** uso de `@property` para proteger atributos e garantir validações
+- **Métodos especiais:** `__str__`, `__repr__`, `__eq__`, `__lt__`, `__add__` para facilitar comparação, ordenação e exibição
+- **Relacionamentos:** OrcamentoMensal agrupa lançamentos, Categoria vincula lançamentos
+
+## Alertas Automáticos
+- Despesa acima do valor mínimo configurado → alerta “alto valor”
+- Despesa que ultrapassa limite da categoria → alerta “limite excedido”
+- Saldo negativo no mês → alerta “déficit orçamentário”
+Todos os alertas são registrados e exibidos ao usuário.
+
+## Configurações (settings.json)
+O sistema permite personalizar parâmetros importantes no arquivo `settings.json`:
+
+```json
+{
+   "valor_minimo_alerta": 500,
+   "meses_comparativo": 3,
+   "meta_economia_percentual": 10
+}
+```
+Esses valores podem ser ajustados conforme sua necessidade. O sistema lê e aplica essas configurações automaticamente.
+
+## Tipos de Relatório Disponíveis
+- Total de despesas por categoria
+- Grupos de despesas por forma de pagamento
+- Percentual de cada categoria em relação ao total de despesas
+- Mês mais econômico (menor total de despesas)
+- Comparativo de receitas e despesas nos últimos meses (configurável)
+
+
+Esse projeto é um sistema simples pra controlar receitas e despesas do mês, feito em Python usando orientação a objetos. Tudo funciona pelo terminal, então é só rodar e usar o menu. O código foi feito pensando em facilitar a vida de quem quer organizar o dinheiro sem complicação.
+
+### Principais Classes
+- Categoria: define se é receita ou despesa, tem nome, tipo, limite e descrição.
+- Lancamento: classe base para receitas e despesas, guarda valor, data, descrição, categoria e forma de pagamento.
+- Receita: herda de Lancamento, serve pra entradas de dinheiro.
+- Despesa: herda de Lancamento, serve pra saídas, valida limite e saldo.
+- OrcamentoMensal: guarda receitas e despesas de um mês, calcula saldo.
+- GerenciadorFinanceiro: controla vários meses, troca competência.
+- Alerta: mostra avisos tipo limite excedido.
+- Relatorio: gera estatísticas, tipo gastos por categoria.
+- Configuracao: salva e carrega configs do sistema.
+- InterfaceUsuario: mostra menu e lê opção do usuário.
+- Persistencia: salva e carrega dados em JSON.
+
+---
+
+## Quem fez o quê
+
+Bruna: modelagem das classes principais (Lancamento, Receita, Despesa, Categoria)
+Nunes: regras de negócio, controle de meses, alertas
+Rodrigo: persistência, relatórios, configuração, interface
+
+---
+- **Foco:** Núcleo da Modelagem (Core Domain).
+- **Classes:** Lancamento, Receita, Despesa, Categoria.
+- **Tarefas:** Implementação da herança, validações de tipos (setters), criação do Enum de Pagamento e encapsulamento dos dados básicos.
+
+Antonia Bruna Silva dos Santos
+### Francisco Nunes Lopes da Silva
+- **Foco:** Regras de Negócio e Controle.
+- **Classes:** OrcamentoMensal, GerenciadorFinanceiro, Alerta.
+- **Tarefas:** Lógica de cálculo de saldos, gerenciamento de múltiplos meses, lógica de disparo de alertas e verificação de limites.
+
+### Rodrigo Pereira Oliveira
+- **Foco:** Infraestrutura e Interface.
+- **Classes:** Persistencia, Relatorio, Configuracao, InterfaceUsuario.
+- **Tarefas:** Leitura/escrita de arquivos, implementação da CLI (menus), carregamento de configurações (`settings.json`) e formatação dos relatórios.
+
+---
+
+## Diagrama UML (textual)
+
+Diagrama UML:
+
+Categoria
+   |
+Lancamento (base)
+   |-- Receita  (métodos especiais: __str__, __repr__, __eq__, __lt__, __add__)
+   |-- Despesa  (métodos especiais: __str__, __repr__, __eq__, __lt__, __add__)
+OrcamentoMensal  <-- contém vários Lancamentos
+GerenciadorFinanceiro  <-- gerencia vários OrcamentoMensal e registra alertas automáticos
+Alerta  <-- usado para avisos de limite, gasto alto, déficit
+Relatorio  <-- gera relatórios e estatísticas
+Configuracao  <-- salva/carrega configs
+Persistencia  <-- salva/carrega dados JSON
+InterfaceUsuario  <-- menu CLI
+excecoes.py  <-- exceções customizadas
+tests/  <-- testes automáticos com pytest
+
+---
+
+---
+
+## Instruções de Instalação e Execução
+
+
+Como rodar:
+1. Baixe o projeto (pode usar git clone se quiser)
+2. Se quiser, crie um ambiente virtual (python3 -m venv venv)
+3. Instale as dependências (pip install -r requirements.txt, se houver)
+4. Rode o main.py (python3 main.py)
+
+### Testes automáticos (pytest)
+Se quiser garantir que está tudo funcionando, rode os testes automáticos:
+
+```bash
+pytest -q tests/
+```
+Se aparecer tudo "passed", tá show! Se der erro, o terminal mostra onde foi.
+
+
+## Exemplo de Uso
+
+
+Quando rodar, vai aparecer um menu no terminal:
+- Adicionar receita (você escolhe o mês/ano da receita)
+- Adicionar despesa (também escolhe o mês/ano da despesa)
+- Ver saldo do mês/ano atual
+- Ver saldo de outro mês/ano (dá pra consultar qualquer período)
+- Relatório de gastos por categoria (mostra quanto gastou em cada coisa)
+- Relatório de saldos mensais/anuais (dá pra ver o saldo de cada mês e cada ano)
+- Trocar competência (mês/ano) para lançar ou consultar dados de outro período
+- Sair (salva tudo)
+
+
+## Dicas e Funcionamento (pra não se perder)
+
+- **Categoria:** é tipo um grupo pra organizar suas receitas e despesas. Exemplo: "Alimentação", "Transporte", "Salário". Quando for cadastrar uma receita ou despesa, você coloca a categoria pra depois ver quanto gastou em cada coisa.
+- **Receita:** tudo que entra de dinheiro (ex: salário, mesada, venda de algo).
+- **Despesa:** tudo que sai (ex: conta de luz, lanche, transporte).
+- **Limite da categoria:** se quiser, pode colocar um valor máximo pra gastar numa categoria (tipo, não gastar mais de 200 reais com lanche no mês). Se passar, o sistema avisa.
+
+- **Competência:** é o mês/ano que você está controlando. Dá pra trocar e ver outros meses e anos, tanto pra lançar quanto pra consultar receitas/despesas.
+- **Datas:** sempre que for lançar uma receita ou despesa, você escolhe o mês e o ano certinho. Assim, dá pra organizar tudo por período e consultar depois.
+- **Relatório:** mostra quanto você gastou em cada categoria no mês, e também tem opção de ver o saldo de cada mês/ano.
+- **Saldo:** dá pra ver o saldo do mês/ano atual ou consultar o saldo de qualquer outro mês/ano que já cadastrou.
+- **Tudo é salvo automaticamente** quando você escolhe sair, então não precisa se preocupar em perder os dados.
+
+
+Qualquer dúvida, só mexer no menu e testar! Se errar, o sistema avisa e você pode tentar de novo. Dá pra cadastrar receitas/despesas em qualquer mês/ano, consultar saldos antigos, ver relatórios detalhados e controlar tudo certinho!
+
+
+## Testes Automatizados
+O sistema possui testes automáticos usando pytest, cobrindo:
+- Criação e validação de categorias, receitas e despesas
+- Regras de negócio (limite, saldo, associação)
+- Métodos especiais (__repr__, __eq__, __lt__, __add__)
+- Alertas automáticos (alto valor, déficit orçamentário)
+- Integração entre classes principais
+
+Para rodar os testes, basta executar:
+```bash
+pytest -q tests/
+```
+Se todos passarem, o sistema está funcionando corretamente!
+
+
+## Decisões de Design
+
+O sistema usa orientação a objetos, tem exceções próprias, salva tudo em JSON e pode ser adaptado pra SQLite se quiser. O menu é simples pra facilitar a vida.
+
+---
+
+---
